@@ -1,0 +1,102 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Books</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+        img {
+            width: 100px; /* Taille de l'image */
+        }
+        .book-count {
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ path('app_home') }}">My Website</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_contact') }}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_list_book') }}">List of Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_book_add') }}">Add Book</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">List of Books</h1>
+        <form action="{{path('app_list_book')}}" methode="get">
+        <input type="text" name="authorName" placeholder="search by author name">
+        <input type="submit" value="search">
+        <table class="table table-striped table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Number of Pages</th>
+                    <th>Published</th>
+                    <th>Category</th>
+                    <th>Author</th>
+                    <th>Publication Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>{{ book.ref }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.nbrPage }}</td>
+                        <td>{{ book.published ? 'Yes' : 'No' }}</td>
+                        <td>{{ book.category }}</td>
+                        <td>{{ book.author ? book.author.name : 'No author' }}</td>
+                        <td>{{ book.publicationDate ? book.publicationDate|date('Y-m-d') : 'No date' }}</td>
+                        <td>
+                            <a href="{{ path('app_book_edit', { id: book.ref}) }}" class="btn btn-warning">Edit</a>
+                            <a href="{{ path('app_book_delete', { id: book.ref }) }}" class="btn btn-danger">Delete</a>
+                            <a href="{{ path('app_book_show', { id: book.ref }) }}" class="btn btn-info">Show</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center">No books found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Card for Book Count -->
+        <div class="book-count">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre de livres dans la catégorie "Romance"</h5>
+                    <p class="card-text">{{ count }} livres</p>
+                    <i class="fas fa-book fa-3x"></i> <!-- Icone de livre -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Ajout de Font Awesome pour les icônes -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

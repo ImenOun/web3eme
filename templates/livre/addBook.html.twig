@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Project{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Couleur de fond douce */
+        }
+        .container {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            background-color: #ffffff; /* Fond blanc pour le formulaire */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre pour un effet de profondeur */
+        }
+    </style>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ path('app_home') }}">My Website</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_list_book') }}">Books</a> 
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_book_add') }}">Add Book</a> 
+                </li>
+              
+                <!-- Ajoutez d'autres liens ici -->
+            </ul>
+            <form class="form-inline ml-auto">
+                <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block body %}
+            <h1 class="text-center">Add New Book</h1>
+            {% if app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ app.flashes('success')[0] }}
+                </div>
+            {% endif %}
+            {{ form_start(form) }}
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ form_label(field) }}
+                        {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Add Book</button>
+            {{ form_end(form) }}
+        {% endblock %}
+    </div>
+
+    {% block javascripts %}
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% endblock %}
+</body>
+</html>

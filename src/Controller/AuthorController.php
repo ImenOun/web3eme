@@ -54,6 +54,8 @@ class AuthorController extends AbstractController
                 'author' => $author[0], 
             ]);
         }
+       
+       
 
     
 }
